@@ -1,0 +1,6 @@
+streamlit
+folium
+streamlit_folium
+pandas
+shapely
+pyproj
