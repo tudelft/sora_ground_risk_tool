@@ -4,3 +4,5 @@ streamlit_folium
 pandas
 shapely
 pyproj
+beautifulsoup4
+lxml
