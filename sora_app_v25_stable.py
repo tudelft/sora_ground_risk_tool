@@ -2429,7 +2429,17 @@ with col1:
                     source_impl = CbsPopulationSource()
                 density, count, mode, hotspot, grid_features, debug_info = source_impl.query(geoms.GRB)
 
-    m = folium.Map(location=st.session_state['map_center'], zoom_start=st.session_state['map_zoom'], tiles="CartoDB positron")
+    # Keyless base maps (CartoDB tiles now require an API key)
+    m = folium.Map(location=st.session_state['map_center'], zoom_start=st.session_state['map_zoom'], tiles=None)
+    folium.TileLayer(
+        tiles="https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png",
+        attr="Kaartgegevens &copy; Kadaster (PDOK)", name="PDOK BRT grijs", max_zoom=19, max_native_zoom=19,
+    ).add_to(m)
+    folium.TileLayer(
+        tiles="https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0/Actueel_orthoHR/EPSG:3857/{z}/{x}/{y}.jpeg",
+        attr="Luchtfoto &copy; Beeldmateriaal Nederland (PDOK)", name="PDOK Luchtfoto", max_zoom=21, max_native_zoom=19,
+    ).add_to(m)
+    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
     Draw(export=True, draw_options={'polyline': True, 'polygon': True, 'rectangle': True, 'circle': False, 'marker': False}).add_to(m)
 
     if geoms:
